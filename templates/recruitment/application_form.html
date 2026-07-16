@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}Apply | HireSense AI{% endblock %}
+{% block content %}
+<main class="container py-5"><div class="col-lg-7 mx-auto"><a href="{% url 'jobs:detail' view.job.pk %}" class="text-decoration-none">&larr; {{ view.job.title }}</a><p class="eyebrow mt-3">{{ view.job.company.name }}</p><h1>Apply for {{ view.job.title }}</h1><form method="post" class="card border-0 shadow-sm mt-4"><div class="card-body p-4">{% csrf_token %}{{ form.non_field_errors }}{% for field in form %}<div class="mb-3"><label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{{ field.errors }}</div>{% endfor %}<button class="btn btn-primary" type="submit">Submit application</button></div></form></div></main>
+{% endblock %}

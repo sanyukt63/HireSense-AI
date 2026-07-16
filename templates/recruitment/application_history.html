@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}Applications | HireSense AI{% endblock %}
+{% block content %}
+<main class="container py-5"><p class="eyebrow">Candidate workspace</p><h1>Application history</h1><div class="row g-3 mt-1">{% for application in applications %}<div class="col-md-6"><article class="card border-0 shadow-sm"><div class="card-body p-4"><div class="d-flex justify-content-between gap-2"><div><p class="eyebrow mb-1">{{ application.job.company.name }}</p><h2 class="h5">{{ application.job.title }}</h2></div><span class="badge text-bg-secondary align-self-start">{{ application.get_status_display }}</span></div><p class="text-muted mb-0">Applied {{ application.applied_at|date:'M j, Y' }}</p></div></article></div>{% empty %}<div class="col"><p class="text-muted">You have not applied to any jobs yet.</p><a class="btn btn-primary" href="{% url 'jobs:list' %}">Browse jobs</a></div>{% endfor %}</div></main>
+{% endblock %}

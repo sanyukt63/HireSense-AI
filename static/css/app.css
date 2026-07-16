@@ -1,1 +1,7 @@
-/* Shared HireSense AI styles will be added with the dashboard UI. */
+:root { --hs-navy: #13233f; --hs-blue: #3167d5; }
+body { background: #f5f7fb; color: var(--hs-navy); }
+.auth-page { align-items: center; display: flex; justify-content: center; min-height: 100vh; padding: 1.5rem; }
+.auth-card { background: #fff; border-radius: 1rem; box-shadow: 0 1rem 3rem rgba(19, 35, 63, .12); max-width: 31rem; padding: 2.5rem; width: 100%; }
+.eyebrow { color: var(--hs-blue); font-size: .78rem; font-weight: 700; letter-spacing: .12em; margin-bottom: .5rem; text-transform: uppercase; }
+.form-control, .form-select { border-radius: .5rem; padding: .65rem .75rem; }
+.btn { border-radius: .5rem; font-weight: 600; padding: .65rem 1rem; }

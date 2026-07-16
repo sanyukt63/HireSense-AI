@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}My resumes | HireSense AI{% endblock %}
+{% block content %}
+<main class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <p class="eyebrow">Candidate workspace</p>
+      <h1>My resumes</h1>
+    </div>
+    <a class="btn btn-primary" href="{% url 'resume:upload' %}">Upload resume</a>
+  </div>
+  {% for message in messages %}<div class="alert alert-{{ message.tags|default:'info' }}">{{ message }}</div>{% endfor %}
+  <div class="row g-3">
+    {% for card in resume_cards %}
+    <div class="col-lg-6">
+      <article class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-between gap-3">
+            <div>
+              <h2 class="h5 mb-1">{{ card.resume.title }} {% if card.resume.is_primary %}<span class="badge text-bg-primary">Primary</span>{% endif %}</h2>
+              <p class="text-muted mb-0">{{ card.resume.original_filename }} · {{ card.resume.file_size|filesizeformat }} · {{ card.resume.uploaded_at|date:'M j, Y' }}</p>
+            </div>
+            <div class="text-nowrap">
+              <a class="btn btn-sm btn-outline-primary" href="{% url 'resume:document' card.resume.pk %}">Download</a>
+              <a class="btn btn-sm btn-outline-danger" href="{% url 'resume:delete' card.resume.pk %}">Delete</a>
+            </div>
+          </div>
+          {% if card.suggestions %}
+          <div class="mt-4 border-top pt-3">
+            <h3 class="h6">AI resume suggestions</h3>
+            <ul class="small mb-2">
+              {% for item in card.suggestions.missing_skills %}<li>Missing skill: {{ item }}</li>{% endfor %}
+              {% for item in card.suggestions.better_keywords %}<li>Keyword to add: {{ item }}</li>{% endfor %}
+            </ul>
+            <p class="small text-muted mb-0">Tip: {{ card.suggestions.formatting_tips|first }}</p>
+          </div>
+          {% endif %}
+        </div>
+      </article>
+    </div>
+    {% empty %}
+    <div class="col"><div class="card border-0 shadow-sm"><div class="card-body p-4"><h2 class="h4">Upload your first resume</h2><p class="text-muted">Your primary resume will be used for future job applications.</p><a class="btn btn-primary" href="{% url 'resume:upload' %}">Upload resume</a></div></div></div>
+    {% endfor %}
+  </div>
+</main>
+{% endblock %}

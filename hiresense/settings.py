@@ -7,7 +7,7 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "unsafe-development-key-change-before-deployment")
 DEBUG = os.getenv("DJANGO_DEBUG", "False").lower() == "true"
-ALLOWED_HOSTS = [item for item in os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",") if item]
+ALLOWED_HOSTS = [item for item in os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",") if item]
 
 INSTALLED_APPS = [
     "django.contrib.admin", "django.contrib.auth", "django.contrib.contenttypes",
@@ -38,6 +38,9 @@ STORAGES = {"staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestSta
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+LOGIN_URL = "accounts:login"
+LOGIN_REDIRECT_URL = "accounts:dashboard"
+LOGOUT_REDIRECT_URL = "accounts:login"
 if not DEBUG:
     SECURE_SSL_REDIRECT = os.getenv("DJANGO_SECURE_SSL_REDIRECT", "True").lower() == "true"
     SESSION_COOKIE_SECURE = True

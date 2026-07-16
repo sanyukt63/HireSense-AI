@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}Delete resume | HireSense AI{% endblock %}
+{% block content %}
+<main class="container py-5"><div class="col-md-7 mx-auto card border-0 shadow-sm"><div class="card-body p-4"><h1 class="h3">Delete “{{ object.title }}”?</h1><p class="text-muted">The uploaded document will be permanently removed.</p><form method="post">{% csrf_token %}<a class="btn btn-outline-secondary" href="{% url 'resume:list' %}">Cancel</a><button class="btn btn-danger" type="submit">Delete resume</button></form></div></div></main>
+{% endblock %}

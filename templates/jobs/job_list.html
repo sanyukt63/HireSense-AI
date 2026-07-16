@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}Jobs | HireSense AI{% endblock %}
+{% block content %}
+<main class="container py-5"><div class="d-flex justify-content-between align-items-center mb-4"><div><p class="eyebrow">Opportunities</p><h1>Open positions</h1></div>{% if request.user.role == 'recruiter' %}<a class="btn btn-primary" href="{% url 'jobs:job_create' %}">Post a job</a>{% endif %}</div><div class="row g-4">{% for job in jobs %}<div class="col-md-6 col-lg-4"><article class="card h-100 border-0 shadow-sm"><div class="card-body p-4"><p class="eyebrow">{{ job.company.name }}</p><h2 class="h5"><a class="text-decoration-none stretched-link" href="{% url 'jobs:detail' job.pk %}">{{ job.title }}</a></h2><p class="text-muted mb-2">{{ job.get_work_mode_display }} · {{ job.location|default:'Location flexible' }}</p><p class="mb-0">{{ job.get_employment_type_display }}</p></div></article></div>{% empty %}<p class="text-muted">There are no open roles at present.</p>{% endfor %}</div></main>
+{% endblock %}
