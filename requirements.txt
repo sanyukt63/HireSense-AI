@@ -8,3 +8,4 @@ sentence-transformers>=3.3,<4.0
 python-docx>=1.1,<2.0
 scikit-learn>=1.6,<2.0
 PyMuPDF>=1.24,<2.0
+ 
