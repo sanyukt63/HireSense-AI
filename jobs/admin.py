@@ -8,7 +8,6 @@ class CompanyAdmin(admin.ModelAdmin):
     list_display = ("name", "location", "owner", "created_at")
     search_fields = ("name", "location")
 
-
 @admin.register(Job)
 class JobAdmin(admin.ModelAdmin):
     list_display = ("title", "company", "status", "work_mode", "created_at")
