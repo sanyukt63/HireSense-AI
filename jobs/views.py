@@ -17,7 +17,7 @@ class RecruiterRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
     def handle_no_permission(self):
         messages.error(self.request, "Recruiter access is required for this action.")
         return redirect("accounts:dashboard")
-
+ 
 
 class JobListView(ListView):
     model = Job
