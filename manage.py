@@ -14,7 +14,6 @@ def main():
             "Django could not be imported. Install project dependencies first."
         ) from exc
     execute_from_command_line(sys.argv)
-
-
+ 
 if __name__ == "__main__":
     main()
