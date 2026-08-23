@@ -14,7 +14,7 @@ DEFAULT_SKILLS = (
 )
 PARSER_VERSION = "rule-based-v1"
 SCORING_VERSION = "ats-v1"
-
+ 
 
 def build_resume_suggestions(extracted_data):
     """Generate actionable resume improvement suggestions from parsed resume data."""
