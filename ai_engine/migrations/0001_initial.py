@@ -5,7 +5,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
     initial = True
     dependencies = [("jobs", "0001_initial"), ("resume", "0001_initial"), ("recruitment", "0001_initial")]
-
+ 
     operations = [
         migrations.CreateModel(name="Skill", fields=[
             ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
