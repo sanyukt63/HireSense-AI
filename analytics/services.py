@@ -7,7 +7,7 @@ def get_dashboard_metrics(user):
     """Return summary metrics for recruiters and admins."""
     if not getattr(user, "is_authenticated", False):
         return {}
-
+ 
     pk = getattr(user, "pk", None) or getattr(user, "id", None)
     if pk is None:
         return {
