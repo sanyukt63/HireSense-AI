@@ -7,7 +7,7 @@ AI-powered resume screening and candidate shortlisting platform built with Djang
 The project scaffold, PostgreSQL-ready settings, custom user model, static/media configuration, app boundaries, and initial architecture are in place. Product workflows are intentionally deferred to later milestones.
 
 ## Applications 
-
+ 
 | App | Responsibility |
 | --- | --- |
 | `accounts` | Identity, roles, candidate/recruiter profiles |
