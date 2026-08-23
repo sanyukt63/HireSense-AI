@@ -14,7 +14,7 @@ class Skill(models.Model):
         self.normalized_name = self.name.strip().lower()
         super().save(*args, **kwargs)
 
-    def __str__(self):
+    def __str__(self): 
         return self.name
 
 
