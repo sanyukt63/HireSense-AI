@@ -14,7 +14,7 @@ class ResumeUploadForm(forms.ModelForm):
         document = self.cleaned_data["document"]
         extension = Path(document.name).suffix.lower()
         content_type = getattr(document, "content_type", "")
-        expected_types = {
+        expected_types = { 
             ".pdf": {"application/pdf", "application/octet-stream"},
             ".doc": {"application/msword", "application/octet-stream"},
             ".docx": {
