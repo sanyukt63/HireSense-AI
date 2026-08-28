@@ -12,7 +12,7 @@ from ai_engine.services import build_resume_suggestions, parse_resume
 
 from .forms import ResumeUploadForm
 from .models import Resume
-
+ 
 
 class CandidateRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
     def test_func(self):
