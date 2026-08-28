@@ -3,7 +3,7 @@ from pathlib import Path
 from django import forms
 
 from .models import Resume
-
+ 
 
 class ResumeUploadForm(forms.ModelForm):
     class Meta:
