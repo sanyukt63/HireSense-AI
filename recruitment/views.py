@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
-
+ 
 from accounts.models import User
 from jobs.models import Job
 from resume.models import Resume
