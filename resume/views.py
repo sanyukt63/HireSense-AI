@@ -12,7 +12,7 @@ from ai_engine.services import build_resume_suggestions, parse_resume
 
 from .forms import ResumeUploadForm
 from .models import Resume
- 
+
 
 class CandidateRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
     def test_func(self):
@@ -37,7 +37,7 @@ class ResumeListView(CandidateRequiredMixin, ListView):
         for resume in context.get("resumes", []):
             suggestions = {}
             try:
-                parsed_resume = parse_resume(resume)
+                parsed_resume = getattr(resume, "parse_result", None) or parse_resume(resume)
             except (FileNotFoundError, OSError, ValueError):
                 parsed_resume = None
             if parsed_resume is not None:
@@ -69,7 +69,11 @@ class ResumeDocumentView(CandidateRequiredMixin, View):
         resume = Resume.objects.filter(pk=pk, candidate=request.user).first()
         if not resume:
             raise Http404("Resume not found.")
-        return FileResponse(resume.document.open("rb"), as_attachment=True, filename=resume.original_filename)
+        return FileResponse(
+            resume.document.open("rb"),
+            as_attachment=True,
+            filename=resume.original_filename,
+        )
 
 
 class ResumeDeleteView(CandidateRequiredMixin, DeleteView):
@@ -86,7 +90,11 @@ class ResumeDeleteView(CandidateRequiredMixin, DeleteView):
         was_primary = resume.is_primary
         response = super().form_valid(form)
         if was_primary:
-            replacement = Resume.objects.filter(candidate=self.request.user).order_by("-uploaded_at").first()
+            replacement = (
+                Resume.objects.filter(candidate=self.request.user)
+                .order_by("-uploaded_at")
+                .first()
+            )
             if replacement:
                 replacement.is_primary = True
                 replacement.save(update_fields=("is_primary", "updated_at"))

@@ -3,8 +3,8 @@ from pathlib import Path
 from django import forms
 
 from .models import Resume
- 
-  
+
+
 class ResumeUploadForm(forms.ModelForm):
     class Meta:
         model = Resume
@@ -14,14 +14,15 @@ class ResumeUploadForm(forms.ModelForm):
         document = self.cleaned_data["document"]
         extension = Path(document.name).suffix.lower()
         content_type = getattr(document, "content_type", "")
-        expected_types = { 
+        expected_types = {
             ".pdf": {"application/pdf", "application/octet-stream"},
-            ".doc": {"application/msword", "application/octet-stream"},
             ".docx": {
                 "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                 "application/octet-stream",
             },
         }
-        if content_type and content_type not in expected_types.get(extension, set()):
+        if extension not in expected_types:
+            raise forms.ValidationError("Only PDF and DOCX resumes are supported.")
+        if content_type and content_type not in expected_types[extension]:
             raise forms.ValidationError("The uploaded file type does not match its extension.")
         return document

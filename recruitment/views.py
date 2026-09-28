@@ -4,13 +4,14 @@ from django.db import IntegrityError, transaction
 from django.http import FileResponse, Http404
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views import View
-from django.views.generic import CreateView, DetailView, ListView, UpdateView
- 
+from django.views.generic import CreateView, ListView, UpdateView
+
 from accounts.models import User
+from ai_engine.services import score_application
 from jobs.models import Job
 from resume.models import Resume
-from ai_engine.services import score_application
 
 from .forms import ApplicationForm, ApplicationReviewForm
 from .models import Application
@@ -43,6 +44,8 @@ class ApplicationCreateView(CandidateRequiredMixin, CreateView):
         self.job = Job.objects.filter(pk=kwargs["job_pk"], status=Job.Status.OPEN).first()
         if not self.job:
             raise Http404("This job is not available for applications.")
+        if self.job.application_deadline and self.job.application_deadline < timezone.localdate():
+            raise Http404("The application deadline for this job has passed.")
         if Application.objects.filter(candidate=request.user, job=self.job).exists():
             messages.info(request, "You have already applied for this job.")
             return redirect("recruitment:history")
@@ -122,14 +125,17 @@ class ApplicationScoreView(RecruiterRequiredMixin, View):
     """Calculate an ATS assessment for an application owned by this recruiter."""
 
     def post(self, request, pk):
-        application = Application.objects.filter(pk=pk, job__created_by=request.user).select_related("resume", "job").first()
+        application = Application.objects.filter(
+            pk=pk,
+            job__created_by=request.user,
+        ).select_related("resume", "job").first()
         if not application:
             raise Http404("Application not found.")
         try:
             score_application(application)
             messages.success(request, "ATS assessment calculated successfully.")
-        except (ImportError, OSError, ValueError) as exc:
-            messages.error(request, f"ATS assessment could not be calculated: {exc}")
+        except (ImportError, OSError, ValueError):
+            messages.error(request, "ATS assessment could not be calculated. Check the submitted resume and try again.")
         return redirect("recruitment:review", pk=application.pk)
 
 

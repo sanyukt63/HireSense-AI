@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import get_object_or_404, redirect
+from django.db.models import Q
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
@@ -17,7 +18,7 @@ class RecruiterRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
     def handle_no_permission(self):
         messages.error(self.request, "Recruiter access is required for this action.")
         return redirect("accounts:dashboard")
- 
+
 
 class JobListView(ListView):
     model = Job
@@ -33,6 +34,12 @@ class JobDetailView(DetailView):
     model = Job
     template_name = "jobs/job_detail.html"
     context_object_name = "job"
+
+    def get_queryset(self):
+        queryset = Job.objects.select_related("company")
+        if self.request.user.is_authenticated and self.request.user.role == User.Role.RECRUITER:
+            return queryset.filter(Q(status=Job.Status.OPEN) | Q(created_by=self.request.user))
+        return queryset.filter(status=Job.Status.OPEN)
 
 
 class CompanyCreateView(RecruiterRequiredMixin, CreateView):
