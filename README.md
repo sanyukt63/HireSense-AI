@@ -1,41 +1,87 @@
-# HireSense AI
+# 🤖 HireSense AI
 
-AI-powered resume screening and candidate shortlisting platform built with Django and PostgreSQL.
+> An AI-assisted resume screening and candidate shortlisting platform built with Django and PostgreSQL.
 
-## Milestone 1 status
+## 🎯 Project Goal
 
-The project scaffold, PostgreSQL-ready settings, custom user model, static/media configuration, app boundaries, and initial architecture are in place. Product workflows are intentionally deferred to later milestones.
+HireSense AI is being developed as a recruitment platform that can organize candidates, job postings, applications, resumes, assessments, and analytics in one system.
 
-## Applications 
- 
+The project is currently in **Milestone 1 / architecture stage**. Product workflows and AI scoring are being developed incrementally.
+
+## 🧩 Architecture
+
 | App | Responsibility |
 | --- | --- |
-| `accounts` | Identity, roles, candidate/recruiter profiles |
-| `jobs` | Company and job postings |
+| `accounts` | Users, roles, candidate/recruiter profiles |
+| `jobs` | Companies and job postings |
 | `resume` | Resume uploads and structured candidate records |
 | `recruitment` | Applications, review decisions, shortlists |
-| `ai_engine` | Parsing, scoring, suggestions and model operations |
-| `analytics` | Aggregate dashboard metrics |
+| `ai_engine` | Parsing, scoring, suggestions, model operations |
+| `analytics` | Aggregate recruitment metrics |
 
-## Planned normalized data model
+The normalized data model is designed to keep candidate/job relationships queryable and AI assessments reproducible.
 
-`User` is the authentication identity and holds a product role. `CandidateProfile` and `RecruiterProfile` each extend one user. A `RecruiterProfile` belongs to a `Company`; a `Company` has many `Job` records. A `CandidateProfile` owns many versioned `Resume` records. `Application` is the unique candidate/job join and has an optional selected resume. `ApplicationAssessment` belongs to one application and stores reproducible ATS component scores and a parser/model version. `Skill` is canonical; `ResumeSkill` and `JobSkillRequirement` are many-to-many join tables with proficiency/importance metadata. Education, employment, projects, and certifications belong to a resume rather than being serialized into one unqueryable field.
+## 🛠️ Stack
 
-This prevents duplicated user/company/skill data, allows candidate resubmission, and keeps historical AI scores auditable.
+- **Backend:** Django
+- **Database:** PostgreSQL
+- **Language:** Python
+- **AI layer:** planned parsing/scoring pipeline
+- **Deployment direction:** Gunicorn + Render + managed PostgreSQL/object storage
 
-## Local setup
+## 🚀 Local Setup
 
 1. Create and activate a virtual environment.
-2. Install dependencies: `pip install -r requirements.txt`
-3. Copy `.env.example` to `.env` and set a secure key and PostgreSQL `DATABASE_URL`.
-4. Create database `hiresense_db` and its role in PostgreSQL.
-5. Run `python manage.py makemigrations` then `python manage.py migrate`.
-6. Run `python manage.py runserver`.
+2. Install dependencies:
 
-## Environment
+```bash
+pip install -r requirements.txt
+```
 
-`DATABASE_URL` uses PostgreSQL form: `postgresql://USER:PASSWORD@HOST:5432/DBNAME`.
+3. Copy the environment template:
 
-## Deployment direction
+```bash
+cp .env.example .env
+```
 
-Render will use Gunicorn, `collectstatic`, an environment-provided `DATABASE_URL`, and `DJANGO_DEBUG=False`. Persist uploaded files in object storage before production release; Render's local filesystem is not durable.
+4. Configure a secure Django key and PostgreSQL `DATABASE_URL`.
+5. Create the `hiresense_db` database and PostgreSQL role.
+6. Apply migrations:
+
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
+7. Start Django:
+
+```bash
+python manage.py runserver
+```
+
+## 🗺️ Roadmap
+
+- [ ] Candidate and recruiter authentication flows
+- [ ] Job creation and application workflow
+- [ ] Resume parsing pipeline
+- [ ] Skill extraction and normalization
+- [ ] Explainable candidate scoring
+- [ ] Recruiter dashboard and analytics
+- [ ] Automated tests
+- [ ] Production deployment
+
+## ⚠️ Development Status
+
+This repository is under active development. Some workflows described in the architecture are planned rather than fully implemented.
+
+## 🤝 Contributing
+
+Issues, documentation improvements, testing, and implementation ideas are welcome.
+
+1. Fork the repository
+2. Create a feature branch
+3. Make a focused change
+4. Test it
+5. Open a pull request with a clear description
+
+⭐ Star the project if you want to follow its development.
