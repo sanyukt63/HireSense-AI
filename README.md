@@ -21,6 +21,8 @@ The project is currently in **Milestone 1 / architecture stage**. Product workfl
 
 The normalized data model is designed to keep candidate/job relationships queryable and AI assessments reproducible.
 
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the application boundaries and planned processing flow.
+
 ## 🛠️ Stack
 
 - **Backend:** Django
@@ -77,6 +79,8 @@ This repository is under active development. Some workflows described in the arc
 ## 🤝 Contributing
 
 Issues, documentation improvements, testing, and implementation ideas are welcome.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines and [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) for local development notes.
 
 1. Fork the repository
 2. Create a feature branch
