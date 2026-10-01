@@ -5,23 +5,32 @@ from .models import CandidateProfile, RecruiterProfile, User
 
 
 class RegistrationForm(UserCreationForm):
-    role = forms.ChoiceField(choices=[
-        (User.Role.CANDIDATE, "Candidate"),
-        (User.Role.RECRUITER, "Recruiter"),
-    ])
+    role = forms.ChoiceField(
+        choices=[
+            (User.Role.CANDIDATE, "Candidate"),
+            (User.Role.RECRUITER, "Recruiter"),
+        ]
+    )
 
     class Meta(UserCreationForm.Meta):
         model = User
         fields = ("first_name", "last_name", "username", "email", "role")
 
     def clean_email(self):
-        return self.cleaned_data["email"].lower()
+        return self.cleaned_data["email"].strip().lower()
 
 
 class CandidateProfileForm(forms.ModelForm):
     class Meta:
         model = CandidateProfile
-        fields = ("phone_number", "location", "headline", "bio", "linkedin_url", "portfolio_url")
+        fields = (
+            "phone_number",
+            "location",
+            "headline",
+            "bio",
+            "linkedin_url",
+            "portfolio_url",
+        )
         widgets = {"bio": forms.Textarea(attrs={"rows": 4})}
 
 
