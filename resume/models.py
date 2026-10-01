@@ -19,6 +19,8 @@ def resume_upload_path(instance, filename):
 def validate_resume_size(uploaded_file):
     if uploaded_file.size > MAX_RESUME_SIZE_BYTES:
         raise ValidationError("Resume files must be 5 MB or smaller.")
+    if uploaded_file.size == 0:
+        raise ValidationError("Resume files cannot be empty.")
 
 
 class Resume(models.Model):
