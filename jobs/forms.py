@@ -38,6 +38,12 @@ class JobForm(forms.ModelForm):
             "application_deadline": forms.DateInput(attrs={"type": "date"}),
         }
 
+    def clean_description(self):
+        description = self.cleaned_data.get("description", "").strip()
+        if not description:
+            raise forms.ValidationError("Job description cannot be empty.")
+        return description
+
     def clean_title(self):
         title = self.cleaned_data.get("title", "").strip()
         if not title:
