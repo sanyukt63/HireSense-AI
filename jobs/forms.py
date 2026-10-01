@@ -5,6 +5,12 @@ from .models import Company, Job
 
 
 class CompanyForm(forms.ModelForm):
+    def clean_name(self):
+        name = self.cleaned_data.get("name", "").strip()
+        if not name:
+            raise forms.ValidationError("Company name cannot be empty.")
+        return name
+
     class Meta:
         model = Company
         fields = ("name", "website", "description", "location")
@@ -31,6 +37,12 @@ class JobForm(forms.ModelForm):
             "description": forms.Textarea(attrs={"rows": 8}),
             "application_deadline": forms.DateInput(attrs={"type": "date"}),
         }
+
+    def clean_title(self):
+        title = self.cleaned_data.get("title", "").strip()
+        if not title:
+            raise forms.ValidationError("Job title cannot be empty.")
+        return title
 
     def clean_application_deadline(self):
         deadline = self.cleaned_data.get("application_deadline")
