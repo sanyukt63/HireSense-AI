@@ -112,7 +112,9 @@ def _education_mentions(text):
 
 @transaction.atomic
 def parse_resume(resume):
-    text = extract_document_text(resume)
+    text = extract_document_text(resume).strip()
+    if not text:
+        raise ValueError("The uploaded resume does not contain extractable text.")
     lines = [line.strip() for line in text.splitlines() if line.strip()]
     email_match = re.search(r"[\w.+-]+@[\w-]+\.[\w.-]+", text)
     phone_match = re.search(r"(?:\+?\d[\d\s().-]{7,}\d)", text)
