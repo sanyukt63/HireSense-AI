@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator
 from django.db import models
 
 
@@ -46,7 +46,12 @@ class Job(models.Model):
     location = models.CharField(max_length=120, blank=True)
     work_mode = models.CharField(max_length=20, choices=WorkMode.choices, default=WorkMode.ONSITE)
     employment_type = models.CharField(max_length=20, choices=EmploymentType.choices, default=EmploymentType.FULL_TIME)
-    minimum_experience_years = models.DecimalField(max_digits=4, decimal_places=1, default=0)
+    minimum_experience_years = models.DecimalField(
+        max_digits=4,
+        decimal_places=1,
+        default=0,
+        validators=[MinValueValidator(0)],
+    )
     education_requirement = models.CharField(max_length=180, blank=True)
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.DRAFT)
     application_deadline = models.DateField(null=True, blank=True)
@@ -56,10 +61,6 @@ class Job(models.Model):
     class Meta:
         ordering = ("-created_at",)
         indexes = [models.Index(fields=("status", "-created_at")), models.Index(fields=("company", "status"))]
-
-    def clean(self):
-        if self.minimum_experience_years < 0:
-            raise ValidationError({"minimum_experience_years": "Experience cannot be negative."})
 
     def __str__(self):
         return f"{self.title} — {self.company.name}"
