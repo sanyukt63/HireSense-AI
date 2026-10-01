@@ -17,7 +17,10 @@ class RegistrationForm(UserCreationForm):
         fields = ("first_name", "last_name", "username", "email", "role")
 
     def clean_email(self):
-        return self.cleaned_data["email"].strip().lower()
+        email = self.cleaned_data["email"].strip().lower()
+        if not email:
+            raise forms.ValidationError("Email is required.")
+        return email
 
 
 class CandidateProfileForm(forms.ModelForm):
