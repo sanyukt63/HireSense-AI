@@ -34,32 +34,16 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the application boundaries 
 ## 🚀 Local Setup
 
 1. Create and activate a virtual environment.
-2. Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-3. Copy the environment template:
-
-```bash
-cp .env.example .env
-```
-
+2. Install dependencies: `pip install -r requirements.txt`
+3. Copy `.env.example` to `.env`.
 4. Configure a secure Django key and PostgreSQL `DATABASE_URL`.
 5. Create the `hiresense_db` database and PostgreSQL role.
-6. Apply migrations:
+6. Apply migrations: `python manage.py makemigrations && python manage.py migrate`
+7. Start Django: `python manage.py runserver`
 
-```bash
-python manage.py makemigrations
-python manage.py migrate
-```
+## 🔍 AI Evaluation Principles
 
-7. Start Django:
-
-```bash
-python manage.py runserver
-```
+AI-assisted screening should remain explainable and reviewable. Candidate scores should be accompanied by the skills or evidence that contributed to the assessment, with recruiter decisions remaining subject to human review.
 
 ## 🗺️ Roadmap
 
