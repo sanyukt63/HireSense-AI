@@ -18,6 +18,7 @@ class ResumeUploadForm(forms.ModelForm):
 
     def clean_document(self):
         document = self.cleaned_data["document"]
+        document.name = Path(document.name).name.strip()
         extension = Path(document.name).suffix.lower()
         content_type = getattr(document, "content_type", "")
         expected_types = {
