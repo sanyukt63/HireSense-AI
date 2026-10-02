@@ -56,8 +56,13 @@ class JobForm(forms.ModelForm):
             raise forms.ValidationError("Job title cannot be empty.")
         return title
 
-    def clean_application_deadline(self):
-        deadline = self.cleaned_data.get("application_deadline")
+    def clean_location(self):
+        return self.cleaned_data.get("location", "").strip()
+
+    def clean_education_requirement(self):
+        return self.cleaned_data.get("education_requirement", "").strip()
+
+    def clean_application_deadline(self):        deadline = self.cleaned_data.get("application_deadline")
         status = self.cleaned_data.get("status")
         if (
             deadline
