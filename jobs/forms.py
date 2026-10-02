@@ -11,6 +11,12 @@ class CompanyForm(forms.ModelForm):
             raise forms.ValidationError("Company name cannot be empty.")
         return name
 
+    def clean_description(self):
+        return self.cleaned_data.get("description", "").strip()
+
+    def clean_location(self):
+        return self.cleaned_data.get("location", "").strip()
+
     class Meta:
         model = Company
         fields = ("name", "website", "description", "location")
