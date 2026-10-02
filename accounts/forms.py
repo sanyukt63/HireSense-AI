@@ -16,6 +16,12 @@ class RegistrationForm(UserCreationForm):
         model = User
         fields = ("first_name", "last_name", "username", "email", "role")
 
+    def clean_first_name(self):
+        return self.cleaned_data.get("first_name", "").strip()
+
+    def clean_last_name(self):
+        return self.cleaned_data.get("last_name", "").strip()
+
     def clean_username(self):
         username = self.cleaned_data.get("username", "").strip()
         if not username:
