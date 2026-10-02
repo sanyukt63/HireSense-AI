@@ -36,6 +36,15 @@ class RegistrationForm(UserCreationForm):
 
 
 class CandidateProfileForm(forms.ModelForm):
+    def clean_headline(self):
+        return self.cleaned_data.get("headline", "").strip()
+
+    def clean_bio(self):
+        return self.cleaned_data.get("bio", "").strip()
+
+    def clean_location(self):
+        return self.cleaned_data.get("location", "").strip()
+
     class Meta:
         model = CandidateProfile
         fields = (
@@ -50,6 +59,12 @@ class CandidateProfileForm(forms.ModelForm):
 
 
 class RecruiterProfileForm(forms.ModelForm):
+    def clean_job_title(self):
+        return self.cleaned_data.get("job_title", "").strip()
+
+    def clean_phone_number(self):
+        return self.cleaned_data.get("phone_number", "").strip()
+
     class Meta:
         model = RecruiterProfile
         fields = ("job_title", "phone_number")
