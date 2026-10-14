@@ -105,7 +105,7 @@ def _experience_years(text):
 def _education_mentions(text):
     lowered = text.lower()
     terms = ("phd", "master", "bachelor", "b.tech", "b.e.", "mba", "diploma")
-    return [term for term in terms if re.search(r"(?<!\\w)" + re.escape(term) + r"(?!\\w)", lowered)]
+    return [term for term in terms if re.search(r"(?<!\w)" + re.escape(term) + r"(?!\w)", lowered)]
 
 
 @transaction.atomic
