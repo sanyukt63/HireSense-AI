@@ -18,11 +18,11 @@ def get_dashboard_metrics(user):
         }
 
     applications = Application.objects.filter(job__created_by__pk=pk)
-    total = applications.count()
-    shortlisted = applications.filter(status="shortlisted").count()
-    rejected = applications.filter(status="rejected").count()
-    pending = applications.filter(status__in=["submitted", "reviewed"]).count()
     statuses = Counter(applications.values_list("status", flat=True))
+    total = sum(statuses.values())
+    shortlisted = statuses.get("shortlisted", 0)
+    rejected = statuses.get("rejected", 0)
+    pending = statuses.get("submitted", 0) + statuses.get("reviewed", 0)
 
     return {
         "total_applications": total,
