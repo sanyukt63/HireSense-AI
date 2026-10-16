@@ -16,3 +16,9 @@ class AnalyticsServiceTests(TestCase):
         self.assertIn("rejected", metrics)
         self.assertIn("pending", metrics)
         self.assertIn("status_breakdown", metrics)
+
+    def test_dashboard_metrics_returns_empty_for_anonymous_user(self):
+        class AnonymousUser:
+            is_authenticated = False
+
+        self.assertEqual(get_dashboard_metrics(AnonymousUser()), {})
