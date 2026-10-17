@@ -22,3 +22,17 @@ class AnalyticsServiceTests(TestCase):
             is_authenticated = False
 
         self.assertEqual(get_dashboard_metrics(AnonymousUser()), {})
+
+    def test_dashboard_metrics_returns_zeroes_for_authenticated_user_without_id(self):
+        class UnidentifiedUser:
+            is_authenticated = True
+
+        metrics = get_dashboard_metrics(UnidentifiedUser())
+
+        self.assertEqual(metrics, {
+            "total_applications": 0,
+            "shortlisted": 0,
+            "rejected": 0,
+            "pending": 0,
+            "status_breakdown": {},
+        })
