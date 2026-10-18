@@ -31,7 +31,7 @@ SCORING_VERSION = "ats-v2"
 
 def build_resume_suggestions(extracted_data):
     """Generate actionable resume improvement suggestions from parsed resume data."""
-    skills = {str(value).lower() for value in extracted_data.get("skills", [])}
+    skills = {_normalize_skill_name(str(value)).lower() for value in extracted_data.get("skills", [])}
     missing_skills = [
         skill for skill in ("Python", "Django", "SQL", "Docker", "AWS", "React", "JavaScript")
         if skill.lower() not in skills
