@@ -2,7 +2,7 @@ from unittest.mock import patch
 
 from django.test import SimpleTestCase
 
-from .services import _experience_years, _keyword_similarity, _matched_skills, _normalize_skill_name
+from .services import _experience_years, _keyword_similarity, _matched_skills, _normalize_skill_name, build_resume_suggestions
 
 
 class ParsingServiceTests(SimpleTestCase):
@@ -23,3 +23,9 @@ class ParsingServiceTests(SimpleTestCase):
         score = _keyword_similarity("Python Django PostgreSQL", "Python Django REST APIs")
         self.assertGreaterEqual(score, 0)
         self.assertLessEqual(score, 1)
+
+    def test_resume_suggestions_recognize_skill_aliases(self):
+        suggestions = build_resume_suggestions({"skills": ["ReactJS", "Postgres"]})
+
+        self.assertNotIn("React", suggestions["missing_skills"])
+        self.assertNotIn("PostgreSQL", suggestions["better_keywords"])
