@@ -29,3 +29,6 @@ class ParsingServiceTests(SimpleTestCase):
 
         self.assertNotIn("React", suggestions["missing_skills"])
         self.assertNotIn("PostgreSQL", suggestions["better_keywords"])
+
+    def test_experience_years_defaults_to_zero_when_not_mentioned(self):
+        self.assertEqual(_experience_years("Recent graduate seeking an entry-level role."), 0.0)
