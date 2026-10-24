@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from .models import Company, Job
 
-
+ 
 @admin.register(Company)
 class CompanyAdmin(admin.ModelAdmin):
     list_display = ("name", "location", "owner", "created_at")
