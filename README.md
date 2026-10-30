@@ -21,29 +21,94 @@ The project is currently in **Milestone 1 / architecture stage**. Product workfl
 
 The normalized data model is designed to keep candidate/job relationships queryable and AI assessments reproducible.
 
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the application boundaries and planned processing flow.
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for application boundaries and the planned processing flow.
 
 ## 🛠️ Stack
 
-- **Backend:** Django
+- **Backend:** Django 5
 - **Database:** PostgreSQL
 - **Language:** Python
-- **AI layer:** planned parsing/scoring pipeline
+- **AI/NLP:** spaCy, Sentence Transformers, scikit-learn, and document-processing tools
 - **Deployment direction:** Gunicorn + Render + managed PostgreSQL/object storage
 
 ## 🚀 Local Setup
 
-1. Create and activate a virtual environment.
-2. Install dependencies: `pip install -r requirements.txt`
-3. Copy `.env.example` to `.env`.
-4. Configure a secure Django key and PostgreSQL `DATABASE_URL`.
-5. Create the `hiresense_db` database and PostgreSQL role.
-6. Apply migrations: `python manage.py makemigrations && python manage.py migrate`
-7. Start Django: `python manage.py runserver`
+### Prerequisites
+
+- Python 3.10+
+- PostgreSQL
+- Git
+
+### 1. Clone and create a virtual environment
+
+```bash
+git clone https://github.com/sanyukt63/HireSense-AI.git
+cd HireSense-AI
+python -m venv .venv
+```
+
+Activate it:
+
+```bash
+# Windows PowerShell
+.venv\Scripts\Activate.ps1
+
+# Linux/macOS
+source .venv/bin/activate
+```
+
+### 2. Install dependencies
+
+```bash
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+### 3. Configure environment variables
+
+The Django settings read these variables:
+
+| Variable | Purpose |
+| --- | --- |
+| `DJANGO_SECRET_KEY` | Secret key used by Django |
+| `DJANGO_DEBUG` | Set to `true` only for local development |
+| `DJANGO_ALLOWED_HOSTS` | Comma-separated allowed host names |
+| `DATABASE_URL` | PostgreSQL connection URL |
+
+Example values for a local development session (replace the database username/password with your own):
+
+```text
+DJANGO_SECRET_KEY=replace-with-a-generated-secret
+DJANGO_DEBUG=true
+DJANGO_ALLOWED_HOSTS=127.0.0.1,localhost
+DATABASE_URL=postgresql://USER:PASSWORD@localhost:5432/hiresense_db
+```
+
+Set these in your shell or a local environment file that is excluded from Git. Do not commit secrets or real candidate data.
+
+### 4. Apply migrations and start the server
+
+Create the PostgreSQL database first, then run:
+
+```bash
+python manage.py migrate
+python manage.py runserver
+```
+
+Open [http://127.0.0.1:8000](http://127.0.0.1:8000).
+
+### 5. Run checks and tests
+
+```bash
+python manage.py check
+python manage.py test
+```
 
 ## 🔍 AI Evaluation Principles
 
 AI-assisted screening should remain explainable and reviewable. Candidate scores should be accompanied by the skills or evidence that contributed to the assessment, with recruiter decisions remaining subject to human review.
+
+Use synthetic or anonymized candidate fixtures during development. Avoid exposing personal information in logs, test output, or sample data.
 
 ## 🗺️ Roadmap
 
